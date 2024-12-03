@@ -7,6 +7,10 @@
     @vite('resources/css/app.css')
 </head>
 <body>
-    <div>Tes</div>
+    <div>Halo, {{auth()->user()->name}}</div>
+    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+        @csrf
+        <button type="submit">Logout</button>
+    </form>
 </body>
 </html>

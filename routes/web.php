@@ -19,14 +19,17 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/login');
+})->name('logout');
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', function () {
         return 'Welcome Admin!';
     });
 });
 
-Route::resource('/kunjungan', \App\Http\Controllers\KunjunganController::class);
+Route::resource('/kunjungan', \App\Http\Controllers\KunjunganController::class)->middleware('auth');
 
 Route::get('/', function () {
     return view('welcome');
